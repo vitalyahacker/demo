@@ -1,23 +1,32 @@
 package com.vitalya.demo.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import com.vitalya.demo.model.Item;
+import com.vitalya.demo.service.DemoService;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 import java.util.List;
 
 @RestController
 public class DemoController {
 
+    private final DemoService demoService;
+
+    public DemoController(DemoService demoService) {
+        this.demoService = demoService;
+    }
+
     @GetMapping
-    public List<String> findAll() {
-        return Arrays.asList("Vova", "Vitya", "Vitalya");
+    public List<Item> findAll() {
+        return demoService.findAll();
     }
 
     @PostMapping
-    public String save(@RequestBody String param) {
-        return param;
+    public Item save(@RequestBody Item item) {
+        return demoService.save(item);
+    }
+
+    @DeleteMapping
+    public void delete(@RequestBody Item item) {
+        demoService.delete(item);
     }
 }
